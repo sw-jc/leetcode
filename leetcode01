@@ -1,0 +1,25 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+            //方法一用set
+            std::set<ListNode *> setNode;
+            while(head){
+                    if(setNode.find(head)!=setNode.end()){//set
+                              return head;                       
+                    }
+                    setNode.insert(head);
+                    head=head->next;
+            }
+            return NULL;
+            
+        
+    }
+};
