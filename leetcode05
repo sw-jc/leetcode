@@ -1,0 +1,25 @@
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+            //设置两个头结点,头结点法可以很方便的做出来
+            ListNode *new1=new ListNode(0);//指向比x小的
+            ListNode *temp1=new1;
+            ListNode *new2=new ListNode(0);//指向剩余的
+            ListNode *temp2=new2;
+            while(head){
+                    if(head->val<x){
+                            temp1->next=head;
+                            temp1=temp1->next;
+                    }else{
+                            temp2->next=head;
+                            temp2=temp2->next;
+
+                    }
+                    head=head->next;
+            }
+            temp1->next=new2->next;//不是new2，因为他是头结点
+            temp2->next=NULL;
+            return new1->next;//不是new1
+        
+    }
+};
