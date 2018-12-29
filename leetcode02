@@ -1,0 +1,33 @@
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+            //快慢指针
+            ListNode *slow=head;
+            ListNode *fast=head;
+            ListNode *meet=NULL;
+            while(fast){
+                    slow=slow->next;
+                    fast=fast->next;
+                   if(fast==NULL){//fast=null说明没有环，先判断否则可能出现空指针
+                           return NULL;
+                   } 
+                    fast=fast->next;
+                    if(fast==slow){
+                            meet=fast;
+                            break;
+                    }
+                    
+            }
+            if(!meet){
+                    return NULL;
+            }
+            while(1){//因为有上面的判断 这里必然成立，否则不可能执行到这里
+                   if(meet==head){
+                           return meet;
+                   }
+                    meet=meet->next;
+                    head=head->next;
+            }
+           return NULL;
+    }
+};
