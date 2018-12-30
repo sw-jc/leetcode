@@ -1,0 +1,33 @@
+//最笨的法，题目说带头结点，其实并没有
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+            int len=0;
+            ListNode *head1=head;
+            while(head1){
+                    len++;
+                    head1=head1->next;
+            }
+            head1=head;
+            int temp=len/2;
+            while(temp-->0){
+                    head1=head1->next;
+            }
+            return head1;
+    }
+};
+
+
+//solution 2  快慢指针
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+          ListNode* slow=head;
+          ListNode* fast=head;
+          while(fast&&fast->next){//这里注意 fast和fast->next都要不是空，否则就会出现空指针异常，slow不用管，它一定慢。
+                  slow=slow->next;
+                  fast=fast->next->next;
+          }
+          return slow;
+    }
+};
