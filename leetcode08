@@ -1,0 +1,121 @@
+//solution 1 c++ 比较繁琐   暴力破解 就是一个一个合并
+//vector 没用明白导致一直改
+class Solution {
+public:
+    ListNode* merge(ListNode* l1,ListNode* l2){    
+            ListNode *newNode=new ListNode(0);
+            ListNode *temp=newNode;
+            while(l1&&l2){
+                    if(l1->val>l2->val){
+                            temp->next=l2;
+                            l2=l2->next;
+                    }else{
+                            temp->next=l1;
+                            l1=l1->next;
+                    }
+                    temp=temp->next;
+            }
+            if(l1){
+                 temp->next=l1;   
+            }
+            if(l2){
+                 temp->next=l2;  
+            }
+            return newNode->next;
+    }
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+            int length=lists.size();
+            if(length==0){//如果没有这个判断就会导致错误，因为如果输入为空的话以下标访问就会出现错误，因为这个时候没有给数组分配空间，如果分配空间的话就不是错的，但是如果调用它的函数就不会出现这个错误，注意这点，因为在本来的函数已经考虑了这点了。
+              //      return NULL;
+            }
+            for(int i=1;i<length;i++){
+                    ListNode* temp=lists[0];
+                    ListNode* temp1=lists[i];
+                    ListNode* temp2=merge(temp,temp1);
+                    lists[0]=temp2;
+                    //lists.insert(lists.begin(),temp2);这样就有问题了，这可不是替换，是一直往前插入
+            }
+           // return lists.begin();这样返回的是 ListNode** 而不是*，可以用front
+            return lists[0];
+    }
+};
+
+//solution 2  暴力破解 java  notes： notice Array out of bounds error  
+class Solution {
+        public ListNode merge(ListNode l1,ListNode l2){
+                ListNode newNode=new ListNode(0);
+                ListNode temp=newNode;
+                while(l1!=null&&l2!=null){
+                      if(l1.val>l2.val){
+                              temp.next=l2;
+                              l2=l2.next;
+                      }else{
+                              temp.next=l1;
+                              l1=l1.next;
+                      }  
+                      temp=temp.next;
+                      
+                }
+                if(l1==null){
+                        temp.next=l2;
+                }else{
+                        temp.next=l1;
+                }
+                return newNode.next;
+                
+        }
+    public ListNode mergeKLists(ListNode[] lists) {
+            int len=lists.length;
+            if(len==0){  //这里一定要注意，和cpp一样，如果lists未初始化就lists[0]一定报错的，哎   注意啊  xiongdei                  
+                    return null;       
+            }
+            int i=1;
+            while(len-->1){//还是用for吧 用while容易越界，这个是0就越界了。
+                    ListNode temp1=lists[0];
+                    ListNode temp2=lists[i++];
+                    ListNode temp3=merge(temp1,temp2);
+                    lists[0]=temp3;
+            }
+            return lists[0];
+            
+        
+    }
+}
+
+//solution 3  in cpp  也算暴力破解吧  
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+           int length=lists.size();
+           if(length==0){
+                   return NULL;
+           }
+           std::vector<ListNode*> vec;
+           for(int i=0;i<length;i++){
+                   while(lists[i]){
+                           vec.push_back(lists[i]);
+                           lists[i]=lists[i]->next;
+                   }
+           }
+           int len=vec.size();
+           int temp=0;
+           for(int i=0;i<len;i++){//冒泡  没找到vector的sort怎么实现自定义类型的排序，对vector不熟。。
+                   for(int j=0;j<len-i-1;j++){
+                           if(vec[j]->val>vec[j+1]->val){
+                                   temp=vec[j+1]->val;
+                                   vec[j+1]->val=vec[j]->val;
+                                   vec[j]->val=temp;
+                           }
+                   }
+           }
+           ListNode* newNode=new ListNode(0);
+           ListNode* temp1=newNode;
+           for(int i=0;i<len;i++){
+                   temp1->next=vec[i];
+                   temp1=temp1->next;
+           }
+            return newNode->next;//注意不要带头指针
+    }
+};
+
+//solution 4   分治，递归没搞懂先留着
