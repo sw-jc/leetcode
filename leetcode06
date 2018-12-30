@@ -1,0 +1,45 @@
+// solution 1  in java
+public class Solution {
+
+//全部复制到map中，用初始链表的节点当作key，然后去复制next和random指针最后返回第一个节点，也就是key=head的节点
+    public RandomListNode copyRandomList(RandomListNode head) {
+            Map <RandomListNode,RandomListNode>  nodeMap=
+                    new HashMap<RandomListNode,RandomListNode>();  
+            RandomListNode node=head;
+            while(node!=null){
+                    nodeMap.put(node,new RandomListNode(node.label));
+                    node=node.next;
+            }
+            node=head;
+            while(node!=null){
+                    nodeMap.get(node).next=nodeMap.get(node.next);
+                    nodeMap.get(node).random=nodeMap.get(node.random);
+                    node=node.next;
+            }
+            return nodeMap.get(head);
+    }
+}
+
+//solution 2  in  cpp
+//map的数组下标用法一定要注意，极容易出错****
+class Solution {
+public:
+    RandomListNode *copyRandomList(RandomListNode *head) {
+        std::map<RandomListNode* ,RandomListNode* > map1;
+        //loop1 
+            RandomListNode *node=head;
+            while(node){
+                    map1[node]=new RandomListNode(node->label);
+                    node=node->next;
+            }
+            //复制next和random指针
+            node=head;
+            //loop2
+            while(node){
+                    map1[node]->next=map1[node->next];
+                    map1[node]->random=map1[node->random];
+                    node=node->next;
+            }
+            return map1[head];
+    }
+};
