@@ -1,0 +1,80 @@
+//java   快慢指针找中点然后逆置一半，然后比较即可
+class Solution {
+    public ListNode reverseList(ListNode head){
+            ListNode newNode=new ListNode(0);
+            ListNode temp=null;
+            while(head!=null){
+                    temp=head.next;
+                    head.next=newNode.next;
+                    newNode.next=head;
+                    head=temp;
+            }
+            return newNode.next;
+    }
+    public boolean isPalindrome(ListNode head) {
+            ListNode slow=head;
+            ListNode fast=head;
+            if(head==null||head.next==null){
+                    return true;
+            }
+            while(fast!=null&&fast.next!=null){
+                    slow=slow.next;
+                    fast=fast.next.next;
+            }
+            if(fast!=null){
+                    slow=slow.next;//因为如果奇数个（此时fast是非空）,要让slow后移才可以
+            }
+            ListNode rightList=reverseList(slow);
+            ListNode leftList=head;
+            while(rightList!=null){
+                    if(leftList.val!=rightList.val){
+                            return false;
+                    }
+                    //下面这忘写了 然后就死了。。
+                    rightList=rightList.next;
+                    leftList=leftList.next;
+            }
+            return true;
+    }
+}
+
+//in  cpp
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head){
+            ListNode* newNode=new ListNode(0);
+            ListNode* temp;
+            while(head){
+                    temp=head->next;
+                    head->next=newNode->next;
+                    newNode->next=head;
+                    head=temp;
+            }
+            return newNode->next;
+    }
+    bool isPalindrome(ListNode* head) {
+            //看了大部分做法基本就是快慢指针求中然后逆置一半。。
+            if(head==NULL||head->next==NULL){
+                    return true;
+            }
+            ListNode* slow=head;
+            ListNode* fast=head;
+            while(fast&&fast->next){
+                    slow=slow->next;
+                    fast=fast->next->next;
+            }
+            if(fast){//奇数的时候要后移
+                    slow=slow->next;
+            }
+            fast=reverseList(slow);
+            slow=head;
+            while(fast!=NULL){
+                    if(fast->val!=slow->val){
+                            return false;
+                    }
+                    fast=fast->next;
+                    slow=slow->next;
+            }
+            return true;
+    }
+};
