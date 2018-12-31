@@ -1,0 +1,23 @@
+//solution 1  very cool.
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+          node->val=node->next->val;
+          node->next=node->next->next;
+    }
+};
+
+//solution 2
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+          *node=*(node->next);//修改node指向的内容，而不是修改node，这就很巧 也很容易错
+    }
+};
+//典型错解
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+          node=node->next;//此时修改的就是node的值，这样不会对链表有任何影响。
+    }
+};
