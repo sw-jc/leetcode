@@ -1,0 +1,42 @@
+//solution 1 头插法 in cpp
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+            if(!head){
+                   return NULL; 
+            }
+            ListNode* newNode=head;
+            ListNode* temp=head;
+            while(head){
+                    if(temp->val==head->val){
+                            head=head->next;
+                    }else{
+                            temp->next=head;
+                            temp=temp->next;
+                            head=head->next;
+                    }  
+            }
+            temp->next=NULL;
+            return newNode;
+    }
+};
+
+//solution 2 in cpp 
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+          //常规跟踪
+            ListNode* temp=head;
+            ListNode* temp1=NULL;
+            while(temp!=NULL&&temp->next!=NULL){
+                    if(temp->val==temp->next->val){
+                            temp1=temp->next;
+                            temp->next=temp->next->next;
+                            delete temp1;//释放空间  上一个solution没有释放
+                    }else{
+                            temp=temp->next;
+                    }
+            }
+            return head;
+    }
+};
