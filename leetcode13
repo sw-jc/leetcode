@@ -1,0 +1,34 @@
+
+//开始标志为true 执行一次++就变false  只有遇到遇不到的时候false变true，这样在遇到有的时候就又可以进count++，
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int numComponents(ListNode head, int[] G) {
+        Set set=new HashSet<Integer>();
+        int count=0;
+        ListNode temp=head;
+        for(int i=0;i<G.length;i++){
+            set.add(G[i]);
+        }
+        boolean flag=true;
+        while(head!=null){
+           if(!set.contains(head.val)){
+               flag=true;
+           }else{
+               if(flag){
+                   count++;
+                   flag=false;
+               }
+           }
+            head=head.next;
+            
+        }
+        return count;
+    }
+}
